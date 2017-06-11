@@ -1,0 +1,7 @@
+{
+  "name": "server-frontend",
+  "version": "1.0.0",
+  "description": "This is the front end server for music-rt",
+  "main": "index.js",
+  "license": "MIT"
+}
