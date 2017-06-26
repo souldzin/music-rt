@@ -3,21 +3,30 @@
     <head>
         <title>[dev] MusicRT - Sequencer Test</title>
         <style>
-            .button {
+            .sqbutton {
                 cursor: pointer;
             }
-            .button.inactive {
-                fill: url(#svg-grad-inactive)
+            .sqbutton.inactive {
+                fill: grey;
             }
-            .button.active {
-                fill: url(#svg-grad-active)
+            .sqbutton.active {
+                fill: blue;
             }
-            .button.tick {
-                fill: url(#svg-grad-tick)
+            .sqbutton.tick {
+                fill: red;
             }
         </style>
     </head>
     <body>
+        <div style="width: 0; height: 0; position: absolute;">
+            <svg>
+                <defs>
+                    <symbol id="svg-sequencer-button" viewBox="0 0 10 10">
+                        <rect x="0" y="0" width="10" height="10" rx="3" ry="3" />
+                    </symbol>
+                </defs>
+            </svg>
+        </div>
         <div id="app">
             <p>Loading...</p>
         </div>

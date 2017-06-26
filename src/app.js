@@ -26,14 +26,16 @@ class ButtonGrid extends React.Component {
     componentDidMount() {
         let self = this;
         Tone.Transport.scheduleRepeat((time) => {
-            self.setState((prevState, props) => {
-                const prevTick = prevState.tick;
-                return { 
-                    tick: prevTick === (props.count - 1) 
-                        ? 0
-                        : prevTick + 1
-                }
-            });
+            Tone.Transport.schedule(() => {
+                self.setState((prevState, props) => {
+                    const prevTick = prevState.tick;
+                    return { 
+                        tick: prevTick === (props.count - 1) 
+                            ? 0
+                            : prevTick + 1
+                    }
+                });
+            }, time);
         }, "8n", 0);
     }
 
@@ -76,26 +78,11 @@ class ButtonGrid extends React.Component {
             display: "block"
         };
         return (
-            <svg style={style}>
-                <defs>
-                    <linearGradient id="svg-grad-inactive">
-                        <stop offset="0" stopColor="#e0e0e0" />
-                        <stop offset="0.2" stopColor="#ccc" />
-                        <stop offset="1" stopColor="#aaa" />
-                    </linearGradient>
-                    <linearGradient id="svg-grad-active">
-                        <stop offset="0" stopColor="#6499c1" />
-                        <stop offset="0.3" stopColor="#3e79a7" />
-                        <stop offset="1" stopColor="#23689c" />
-                    </linearGradient>
-                    <linearGradient id="svg-grad-tick">
-                        <stop offset="0" stopColor="#fe7579" />
-                        <stop offset="0.3" stopColor="#fd4c51" />
-                        <stop offset="1" stopColor="#f82227" />
-                    </linearGradient>
-                </defs>
-                {this.state.buttons.map(this.renderButton.bind(this))}
-            </svg>
+            <div>
+                <svg style={style}>
+                    {this.state.buttons.map(this.renderButton.bind(this))}
+                </svg>
+            </div>
         );
     }
 
@@ -112,21 +99,18 @@ class ButtonGrid extends React.Component {
         const status = tick === n
             ? "tick"
             : button.status;
+        const cls = "sqbutton " + status;
         return (
-            <rect status={status}
-                  x={x} 
-                  y={y} 
-                  width={size} 
-                  height={size} 
-                  rx={15}
-                  ry={15} 
-                  className={"button " + status} />
+            <use xlinkHref="#svg-sequencer-button" key={n} x={x} y={y} width={size} height={size} className={cls} />
         );
     }
 }
 
 ReactDOM.render(
-    <ButtonGrid cols={8} count={16} />,
+    <div>
+        <ButtonGrid cols={8} count={16} />,
+        <ButtonGrid cols={8} count={16} />
+    </div>,
     document.getElementById('app')
 );
 
