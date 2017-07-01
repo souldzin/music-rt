@@ -1,18 +1,14 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import * as Tone from "tone";
 
 const BUTTON_SIZE = 50;
 const BUTTON_MARGIN = 12;
 
-// utility functions
-// --------------------
-
 function range(n) {
     return Array.from(Array(n).keys());
 }
 
-class ButtonGrid extends React.Component {
+export class ButtonGrid extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -78,10 +74,8 @@ class ButtonGrid extends React.Component {
             display: "block"
         };
         return (
-            <div>
-                <svg style={style}>
-                    {this.state.buttons.map(this.renderButton.bind(this))}
-                </svg>
+            <div className="mrt-sq-button-grid">
+                {this.state.buttons.map(this.renderButton.bind(this))}
             </div>
         );
     }
@@ -99,19 +93,9 @@ class ButtonGrid extends React.Component {
         const status = tick === n
             ? "tick"
             : button.status;
-        const cls = "sqbutton " + status;
+        const cls = "mrt-sq-button " + status;
         return (
-            <use xlinkHref="#svg-sequencer-button" key={n} x={x} y={y} width={size} height={size} className={cls} />
+            <div key={n} className={cls} />
         );
     }
 }
-
-ReactDOM.render(
-    <div>
-        <ButtonGrid cols={8} count={16} />,
-        <ButtonGrid cols={8} count={16} />
-    </div>,
-    document.getElementById('app')
-);
-
-Tone.Transport.start();
