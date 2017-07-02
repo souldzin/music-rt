@@ -1,18 +1,12 @@
-import Rx from "rxjs/Rx";
+import Rx from "rx";
 import { List, Map, Range } from "immutable";
 
-export class Button {
-    constructor(key) {
-        this.key = key;
-        this.status = "inactive";
-        this.isTicked = false;
-    }
-}
+const initState = Range(0, 16).map(newButton).toList();
 
 export class ButtonGridController {
-    this() {
+    constructor() {
         const initButtons = Range(0, 16)
-            .map(x => new Button(x))
+            .map(newButton)
             .toList();
 
         this._buttonsObv = new Rx.BehaviorSubject(initButtons);
@@ -27,14 +21,14 @@ export class ButtonGridController {
     }
 
     buttonsObservable() {
-        return this._buttons.asObservable();
+        return this._buttonsObv.asObservable();
     }
 }
 
 function newButton(key) {
-    Map({
+    return Map({
         key: key,
-        status: "inactive",
+        isActive: false,
         isTicked: false
     });
 }

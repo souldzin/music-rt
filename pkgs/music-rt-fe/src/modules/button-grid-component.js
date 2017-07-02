@@ -1,30 +1,23 @@
 import React from "react";
+import { List } from "immutable";
 
-export class ButtonGrid extends React.Component {
+export class ButtonGridComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            tick: -1,
-            buttons: range(props.count).map(n => {
-                return { status: "inactive" };
-            })
+            buttons: List()
         };
     }
 
     componentDidMount() {
         let self = this;
-        Tone.Transport.scheduleRepeat((time) => {
-            Tone.Transport.schedule(() => {
-                self.setState((prevState, props) => {
-                    const prevTick = prevState.tick;
-                    return { 
-                        tick: prevTick === (props.count - 1) 
-                            ? 0
-                            : prevTick + 1
-                    }
-                });
-            }, time);
-        }, "8n", 0);
+        this.props.controller.buttonsObservable().subscribe(
+            (buttons) => {
+                self.setState(() => ({
+                    buttons: buttons
+                }));
+            }
+        )
     }
 
     render() {
@@ -35,14 +28,28 @@ export class ButtonGrid extends React.Component {
         );
     }
 
-    renderButton(button, n) {
-        const tick = this.state.tick;
-        const status = tick === n
-            ? "tick"
-            : button.status;
+    renderButton(button) {
+        const self = this;
+        const key = button.get("key");
+        const isTicked = button.get("isTicked");
+        const status = isTicked 
+            ? "tick" 
+            : button.get("status");
         const cls = "mrt-sq-button " + status;
         return (
-            <div key={n} className={cls} />
+            <div key={key} className={cls} onClick={self.onButtonClick.bind(self, key)} />
         );
     }
+
+    onButtonClick(key) {
+        this.props.controller.toggleButton(key);
+    }
+}
+
+function getButtonClass(button) {
+    return button.get("isTicked")
+        ? button.get("isActive")
+        ? "active"
+        : "inactive"
+        : "tick";
 }

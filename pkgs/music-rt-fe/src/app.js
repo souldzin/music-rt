@@ -1,16 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import * as Tone from "tone";
-import {ButtonGrid} from "./components/button-grid";
-import {Scheduler} from "./scheduler";
+import { ButtonGridComponent, ButtonGridController } from "./modules";
 
-const scheduler = new Scheduler();
-const controller = scheduler.newButtonController();
+const controller = new ButtonGridController();
 
 ReactDOM.render(
     <div>
-        <ButtonGrid controller={controller} />
-        <ButtonGrid controller={controller} />
+        <ButtonGridComponent controller={controller} />
+        <ButtonGridComponent controller={controller} />
     </div>,
     document.getElementById('app')
 );
