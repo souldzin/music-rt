@@ -1,7 +1,7 @@
 import React from "react";
 import { List } from "immutable";
 
-export class ButtonGridComponent extends React.Component {
+export default class ButtonGridComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {

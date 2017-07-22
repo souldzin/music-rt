@@ -1,0 +1,26 @@
+@import './colors.less';
+
+@track-list-width: 300px;
+
+.mrt-track-list {
+    background: @base2;
+    width: @track-list-width;
+    height: 100%;
+}
+
+.mrt-track {
+    cursor: pointer;
+    background: @base2;
+    padding: 0.4em;
+    border: solid 0.5px @dark-gray1;
+
+    &.selected {
+        background: @base3;
+    }
+}
+
+.mrt-track-title {
+    padding: 0.4em;
+    width: 220px;
+    display: inline-block;
+}

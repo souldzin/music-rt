@@ -3,7 +3,7 @@ import { List, Map, Range } from "immutable";
 
 const initState = Range(0, 16).map(newButton).toList();
 
-export class ButtonGridController {
+export default class ButtonGridController {
     constructor() {
         const initButtons = Range(0, 16)
             .map(newButton)
