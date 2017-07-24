@@ -2,7 +2,7 @@
   "name": "music-rt",
   "version": "1.0.0",
   "description": "",
-  "main": "src/main.js",
+  "main": "src/ui/main.js",
   "license": "MIT",
   "browserify": {
     "transform": [
@@ -12,9 +12,9 @@
     ]
   },
   "scripts": {
-    "build:js": "browserify ./src/main.js -o ./dist/main.bundle.js",
-    "watch:js": "watchify ./src/main.js -o ./dist/main.bundle.js -v",
-    "build:css": "lessc --clean-css ./src/main.less ./dist/main.bundle.css",
+    "build:js": "browserify ./src/ui/main.js -o ./dist/main.bundle.js",
+    "watch:js": "watchify ./src/ui/main.js -o ./dist/main.bundle.js -v",
+    "build:css": "lessc --clean-css ./src/styles/main.less ./dist/main.bundle.css",
     "watch:css": "onchange -v ./src/**/*.less -- npm run build:css",
     "build": "npm run build:js && npm run build:css",
     "watch": "concurrently --kill-others \"npm run watch:js\" \"npm run watch:css\"",
@@ -42,7 +42,8 @@
     "react-redux": "^5.0.5",
     "redux": "^3.7.1",
     "redux-thunk": "^2.2.0",
-    "rx": "^4.1.0",
-    "tone": "^0.10.0"
+    "rxjs": "^5.4.2",
+    "tone": "^0.10.0",
+    "uuid": "^3.1.0"
   }
 }

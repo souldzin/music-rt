@@ -7,16 +7,82 @@
     <body>
         <!-- this is an example layout of the app -->
         <div class="mrt-app">
-            <div class="mrt-viewport-main">
-                <div class="mrt-track-list">
-                    <div class="mrt-track selected">
-                        <span class="mrt-track-title">Drum track</span>                    
+            <div class="mrt-header">
+                <h1 class="title">Music-RT</h1>
+            </div>
+            <div class="mrt-track-list">
+                <div class="mrt-track">
+                    <div class="mrt-track-header">
+                        <span class="mrt-track-toggle"></span>
+                        <span class="mrt-track-title">Drum Track</span>
                     </div>
-                    <div class="mrt-track">
-                        <span class="mrt-track-title">Lead track</span>                    
+                    <div class="mrt-track-body">
+                        <div class="mrt-drum-editor">
+                            <div class="mrt-drum-btn"></div>
+                            <div class="mrt-drum-btn active tick"></div>
+                            <div class="mrt-drum-btn"></div>
+                            <div class="mrt-drum-btn active"></div>
+                            <div class="mrt-drum-btn active"></div>
+                            <div class="mrt-drum-btn"></div>
+                            <div class="mrt-drum-btn active"></div>
+                            <div class="mrt-drum-btn"></div>
+                            <div class="mrt-drum-btn active"></div>
+                            <div class="mrt-drum-btn"></div>
+                            <div class="mrt-drum-btn active"></div>
+                            <div class="mrt-drum-btn"></div>
+                            <div class="mrt-drum-btn"></div>
+                            <div class="mrt-drum-btn"></div>
+                            <div class="mrt-drum-btn"></div>
+                            <div class="mrt-drum-btn"></div>
+                        </div>
                     </div>
-                    <div class="mrt-track">
-                        <span class="mrt-track-title">Bogus bro</span>                    
+                </div>
+                <div class="mrt-track collapse">
+                    <div class="mrt-track-header">
+                        <span class="mrt-track-toggle"></span>
+                        <span class="mrt-track-title">Bass Track</span>
+                    </div>
+                    <div class="mrt-track-body">
+                        <div class="mrt-drum-editor">
+                            <div class="mrt-drum-btn"></div>
+                            <div class="mrt-drum-btn"></div>
+                            <div class="mrt-drum-btn"></div>
+                            <div class="mrt-drum-btn"></div>
+                            <div class="mrt-drum-btn"></div>
+                            <div class="mrt-drum-btn"></div>
+                            <div class="mrt-drum-btn"></div>
+                            <div class="mrt-drum-btn"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mrt-track">
+                    <div class="mrt-track-header">
+                        <span class="mrt-track-toggle"></span>
+                        <span class="mrt-track-title">Lead Track</span>
+                    </div>
+                    <div class="mrt-track-body">
+                        <div class="mrt-drum-editor">
+                            <div class="mrt-drum-btn"></div>
+                            <div class="mrt-drum-btn tick"></div>
+                            <div class="mrt-drum-btn"></div>
+                            <div class="mrt-drum-btn"></div>
+                            <div class="mrt-drum-btn"></div>
+                            <div class="mrt-drum-btn"></div>
+                            <div class="mrt-drum-btn"></div>
+                            <div class="mrt-drum-btn"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mrt-track collapse mrt-track-placeholder">
+                    <div class="mrt-track-header">
+                        <span class="mrt-track-toggle"></span>
+                        <span class="mrt-track-title">Add Track</span>
+                    </div>
+                </div>
+                <div class="mrt-track collapse mrt-track-placeholder">
+                    <div class="mrt-track-header">
+                        <span class="mrt-track-toggle"></span>
+                        <span class="mrt-track-title">Add Track</span>
                     </div>
                 </div>
             </div>
