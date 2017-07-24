@@ -1,0 +1,135 @@
+@import "./base.less";
+@import "./fonts.less";
+
+// --- spacing variables ------------
+@margin-unit: 16px;
+
+// --- color variables --------------
+@white-pure: #FFFFFF;
+@white-off: #EEEEEE;
+@white-off-light: #F5F5F5;
+
+@blue-main: #3B9DDC;
+
+@pink-light: #DE83CC;
+
+.mrt-app {
+    .font-main();
+    background: @white-pure;
+    min-height: 100%;
+}
+
+.mrt-header {
+    background: @white-off;
+    padding: 1em @margin-unit;
+
+    border-bottom: 1px solid #777;
+    .title {
+        font-weight: bold;
+        font-style: italic;
+        margin: 0;
+    }
+}
+
+.mrt-track-list {
+    padding-top: 1em;
+
+    .mrt-track.collapse {
+        margin-bottom: @margin-unit;
+    }
+}
+
+.mrt-track-toggle {
+    .font-monospace();
+    display: inline-block;
+    width: @margin-unit * 2;
+
+    &:before {
+        font-size: 0.8em;
+        content: '[-]';
+    }
+}
+
+.mrt-track {
+    &.collapse {
+        .mrt-track-toggle:before {
+            content: '[+]';
+        }
+
+        .mrt-track-body {
+            display: none;
+        }
+    }
+}
+
+.mrt-track-header {
+    color: @blue-main;
+    cursor: pointer;
+
+    &:hover {
+        background: @white-off-light;
+    }
+
+    padding-left: @margin-unit;
+}
+.mrt-track-body {
+    padding: 1em (@margin-unit); // taken from mrt-track-toggle
+}
+
+.mrt-track-placeholder {
+    .mrt-track-header {
+        color: #CCC;
+        font-style: italic;
+    }
+
+    .mrt-track-toggle {
+        font-style: normal;
+    }
+}
+
+// --- drum editor ------------
+@drum-btn-size: 40px;
+@drum-btn-margin: @drum-btn-size / 8;
+@drum-btn-width-total: (@drum-btn-size + @drum-btn-margin) + 2;
+@drum-btn-col-count: 8;
+@drum-inactive: #DDD;
+@drum-active: #006FB7;
+@drum-tick: #FF5A41;
+
+.mrt-drum-editor {
+    font-size: 0;
+    text-align: left;
+    width: @drum-btn-width-total * @drum-btn-col-count;
+
+    .mrt-drum-btn {
+        margin-right: @drum-btn-margin;
+        margin-bottom: @drum-btn-margin;
+    }
+}
+
+.mrt-drum-btn {
+    display: inline-block;
+    border: 1px solid #999;
+    border-radius: 12px;
+    width: @drum-btn-size;
+    height: @drum-btn-size;
+
+    cursor: pointer;
+
+    background-color: @drum-inactive;
+    &:hover {
+        background-color: lighten(@drum-inactive, 20%);
+    }
+    &.active {
+        background-color: @drum-active;
+    }
+    &.active:hover {
+        background-color: lighten(@drum-active, 20%);
+    }
+    &.tick {
+        background-color: @drum-tick;
+    }
+    &.tick:hover {
+        background-color: lighten(@drum-tick, 20%);
+    }
+}
