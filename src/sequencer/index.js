@@ -1,6 +1,5 @@
 import Tone from "tone";
 import Conductor from "./Conductor";
-import TrackList from "./TrackList";
 import { toneLoopObservable } from "../utils/tonejs-utils";
 
 const DEFAULT_OPTIONS = {
@@ -25,36 +24,5 @@ export function createTickStream(opt) {
 
     function nextIdx(idx) {
         return idx >= maxIdx - 1 ? 0 : idx + 1;
-    }
-}
-
-// --- start function --------
-// this is for starting the beats + track handling
-// ---------------------------
-export function start(opt) {
-    const $tick = createTickStream(opt);
-    const tracks = new TrackList();
-
-    const trackSubscription = $tick.subscribe(
-        (x) => tracks.play(x)
-    );
-
-    return new SequencerContext($tick, tracks);
-}
-
-export class SequencerContext {
-    constructor($tick, tracks) {
-        this.$tick = tick;
-        this.tracks = tracks;
-    }
-
-    start() {
-        Tone.Transport.start();
-        return this;
-    }
-
-    stop() {
-        Tone.Transport.stop();
-        return this;
     }
 }

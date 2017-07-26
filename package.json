@@ -14,8 +14,8 @@
   "scripts": {
     "build:js": "browserify ./src/ui/main.js -o ./dist/main.bundle.js",
     "watch:js": "watchify ./src/ui/main.js -o ./dist/main.bundle.js -v",
-    "build:css": "lessc --clean-css ./src/styles/main.less ./dist/main.bundle.css",
-    "watch:css": "onchange -v ./src/**/*.less -- npm run build:css",
+    "build:css": "lessc --clean-css ./styles/main.less ./dist/main.bundle.css",
+    "watch:css": "onchange -v ./styles/*.less ./styles/**/*.less -- npm run build:css",
     "build": "npm run build:js && npm run build:css",
     "watch": "concurrently --kill-others \"npm run watch:js\" \"npm run watch:css\"",
     "clean": "trash ./dist/*.bundle.*"
