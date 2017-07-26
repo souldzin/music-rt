@@ -10,7 +10,7 @@ import {
 
 const idgen = createIdGenerator();
 
-function createNewTrack({ trackName, interval, measures, isEditing }) {
+function createNewTrack({ trackName, interval, measures }) {
     return {
         id: idgen(),
         name: trackName,
@@ -20,9 +20,7 @@ function createNewTrack({ trackName, interval, measures, isEditing }) {
             beats: repeat(interval * measures, { 
                 active: false
             })
-        },
-        isCollapsed: false,
-        isEditing: isEditing
+        }
     };
 }
 
@@ -32,24 +30,6 @@ export function addTrack(trackInfo) {
         sync: true,
         track: createNewTrack(trackInfo)
     }
-}
-
-export function updateTrackEditing(trackId, isEditing) {
-    return {
-        type: TRACKS_UPDATE_EDITING,
-        sync: true,
-        trackId: trackId,
-        isEditing: isEditing
-    }
-}
-
-export function updateTrackCollapsed(trackId, isCollapsed) {
-    return {
-        type: TRACKS_UPDATE_COLLAPSED,
-        sync: true,
-        trackId: trackId,
-        isCollapsed: isCollapsed
-    };
 }
 
 export function updateTrackName(trackId, trackName) {

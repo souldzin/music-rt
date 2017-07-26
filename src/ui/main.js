@@ -7,7 +7,15 @@ import { mixerMiddleware, mixerSubscribe } from '../mixer-redux';
 import { connect, clientMiddleware } from '../mixer-client';
 import App from './components/App';
 
-const middlewares = [clientMiddleware(connect()), mixerMiddleware];
+const config = window.MUSIC_RT_CONFIG || {};
+const middlewares = [];
+
+if(!config.local) {
+    const {clientMiddleware} = require('../mixer-client');
+    middlewares.push(clientMiddleware());
+}
+
+middlewares.push(mixerMiddleware);
 
 const store = createStore(rootReducer, applyMiddleware(...middlewares));
 mixerSubscribe(store);

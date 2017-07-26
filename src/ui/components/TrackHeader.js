@@ -11,6 +11,14 @@ const KEY_CODE_ENTER = 13;
  * - trackId, trackName, isEditing
  */
 export class TrackHeader extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            isEditing: false
+        };
+    }
+
     componentDidMount() {
         this.focusOnInput();
     }
@@ -29,13 +37,14 @@ export class TrackHeader extends React.Component {
     }
 
     renderCollapseButton() {
-        const {isCollapsed, onTrackCollapseChange} = this.props;
+        const { isCollapsed, onCollapseUpdate } = this.props;
 
-        return <span className="mrt-track-toggle" onClick={() => onTrackCollapseChange(!isCollapsed)}></span>
+        return <span className="mrt-track-toggle" onClick={() => onCollapseUpdate(!isCollapsed)}></span>
     }
 
     renderTitle() {
-        const {isEditing, trackName, onTrackNameChange, onEditingChange} = this.props;
+        const { trackName } = this.props;
+        const { isEditing } = this.state;
 
         if(isEditing) {
             // setup some props here for readability
@@ -55,7 +64,7 @@ export class TrackHeader extends React.Component {
         } else {
             return <span className="mrt-track-title"
                   onDoubleClick={() => this.startEditing()} >
-                  {trackName}
+                  {trackName || "(unnamed)"}
             </span>
         }
     }
@@ -71,16 +80,17 @@ export class TrackHeader extends React.Component {
     }
 
     updateEditing(val) {
-        const {onEditingChange} = this.props;
-        if(onEditingChange) {
-            onEditingChange(val);
-        }
+        this.setState((prevState) => ({
+            isEditing: val
+        }));
     }
 
     updateName(val) {
-        const {onTrackNameChange} = this.props;
-        if(onTrackNameChange) {
-            onTrackNameChange(val);
+        const {onNameUpdate} = this.props;
+        const {isEditing} = this.state;
+
+        if(onNameUpdate) {
+            onNameUpdate(val);
         }
     }
 
@@ -98,14 +108,8 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch, ownProps) {
     const {trackId} = ownProps;
     return {
-        onTrackNameChange: (name) => {
+        onNameUpdate: (name) => {
             dispatch(updateTrackName(trackId, name));
-        },
-        onTrackCollapseChange: (isCollapsed) => {
-            dispatch(updateTrackCollapsed(trackId, isCollapsed));
-        },
-        onEditingChange: (isEditing) => {
-            dispatch(updateTrackEditing(trackId, isEditing));
         }
     };
 }

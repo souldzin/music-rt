@@ -2,25 +2,15 @@ import io from 'socket.io-client';
 
 // --- exports --------------
 export {
-    clientMiddleware,
-    connect
+    clientMiddleware
 };
 
-// --- connect to socket ----
-
-function connect() {
-    const socket = io();
-
-    return {
-        socket: socket
-    };
-}
-
-function clientMiddleware({ socket }) {
+function clientMiddleware() {
     return ({ getState, dispatch }) => {
+        const socket = io();
+
         // --- initialize state with server
         socket.on('init', ({state}) => {
-            console.log('init...');
             dispatch({
                 type: 'SET_STATE',
                 payload: state

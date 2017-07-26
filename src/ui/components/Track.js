@@ -8,19 +8,32 @@ import TrackHeader from './TrackHeader';
  * - trackId, trackName, sequence, isCollapsed
  */
 export default class Track extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            isCollapsed: false
+        };
+    }
+
     render() {
+        const { isCollapsed } = this.state;
         const { trackName, 
                 trackId, 
-                sequence,
-                isCollapsed,
-                isEditing } = this.props;
+                sequence } = this.props;
 
         const status = (isCollapsed ? "collapse" : "");
 
         return (<div className={"mrt-track " + status}> 
-            <TrackHeader trackId={trackId} trackName={trackName} isEditing={isEditing} isCollapsed={isCollapsed} />
+            <TrackHeader trackId={trackId} trackName={trackName} isCollapsed={isCollapsed} onCollapseUpdate={(x) => this.collapse(x)} />
             <TrackBody trackId={trackId} sequence={sequence} />
         </div>);
+    }
+
+    collapse(isCollapsed) {
+        this.setState((prevState) => ({
+            isCollapsed: isCollapsed
+        }));
     }
 }
 

@@ -11,14 +11,6 @@ function updateTrack(track, action) {
     switch(action.type) {
         case TRACKS_UPDATE_NAME:
             return track.set("name", action.trackName);
-        case TRACKS_UPDATE_COLLAPSED:
-            return track.set("isCollapsed", action.isCollapsed);
-        case TRACKS_UPDATE_EDITING:
-            // if we're not editing and there's no name here...
-            if(!action.isEditing && !track.get("name")) {
-                track = track.set("name", "(unnamed)");
-            }
-            return track.set("isEditing", action.isEditing);
         default:
             return track;
     }
@@ -51,8 +43,6 @@ export function tracksById(state = Map(), action) {
         case TRACKS_REMOVE:
             return state.remove(action.trackId);
         case TRACKS_UPDATE_NAME:
-        case TRACKS_UPDATE_EDITING:
-        case TRACKS_UPDATE_COLLAPSED:
             return state.update(action.trackId, (x) => updateTrack(x, action));
         case TRACK_SEQUENCE_UPDATE:
             return state.update(action.trackId, (x) => updateBeatInTrack(x, action.beat));

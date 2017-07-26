@@ -6,8 +6,9 @@ const state = require('./state');
 
 // --- configuration ------------
 const CONFIG = {
-    STATIC_ROOT: '../../wwwroot',
-    VIEW_ROOT: '../../views',
+    STATIC_PREFIX: '/public',
+    STATIC_ROOT: '../../dist/public',
+    VIEW_ROOT: '../../dist',
     PORT: 3000
 };
 
@@ -18,9 +19,12 @@ CONFIG.VIEW_ROOT_ABS = path.join(__dirname, CONFIG.VIEW_ROOT);
 
 const app = express();
 
-app.use( express.static(CONFIG.STATIC_ROOT_ABS));
+app.use( CONFIG.STATIC_PREFIX, express.static(CONFIG.STATIC_ROOT_ABS));
 
 app.get('/', function(req, res){
+    res.locals = {
+        what: "is this?"
+    };
     res.sendFile( path.join(CONFIG.VIEW_ROOT_ABS, "index.html"));
 });
 
