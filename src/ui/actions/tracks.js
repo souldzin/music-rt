@@ -23,7 +23,7 @@ function createNewSequence(interval, measures) {
     return new Map({
         interval: interval,
         type: 'drum',
-        beats: Repeat(createNewBeat(), interval * measures)
+        beats: Repeat(createNewBeat(), interval * measures).toList()
     });
 }
 

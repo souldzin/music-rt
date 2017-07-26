@@ -1,0 +1,17 @@
+@import "../../node_modules/font-awesome/less/font-awesome.less";
+
+.fa-icon(@icon) {
+    .fa;
+    @fa-var: "fa-var-@{icon}";
+    &:before {
+        content: @@fa-var;
+    }
+}
+
+.mrt-icon-trash {
+    .fa-icon('trash-o');
+}
+
+.mrt-icon-gear {
+    .fa-icon('cog');
+}

@@ -4,6 +4,7 @@ import { TRACKS_ADD,
          TRACKS_UPDATE_EDITING, 
          TRACKS_UPDATE_NAME,
          TRACKS_UPDATE_COLLAPSED } from '../actions/tracks';
+import { TRACK_SEQUENCE_UPDATE } from '../actions/sequences';
 
 function updateTrack(track, action) {
     switch(action.type) {
@@ -22,6 +23,26 @@ function updateTrack(track, action) {
     }
 }
 
+function updateBeat(beat, {active}) {
+    return beat.set("active", active);
+}
+
+function updateBeatInList(beats, beat) {
+    return beats.update(beat.idx, (x) => updateBeat(x, beat));
+}
+
+function updateBeatInSequence(sequence, beat) {
+    return sequence.update("beats", (x) => updateBeatInList(x, beat));
+}
+
+function updateBeatInTrack(track, beat) {
+    if(!track) {
+        return track;
+    }
+
+    return track.update("sequence", (x) => updateBeatInSequence(x, beat));
+}
+
 export function tracksById(state = Map(), action) {
     switch(action.type) {
         case TRACKS_ADD:
@@ -32,6 +53,8 @@ export function tracksById(state = Map(), action) {
         case TRACKS_UPDATE_EDITING:
         case TRACKS_UPDATE_COLLAPSED:
             return state.update(action.trackId, (x) => updateTrack(x, action));
+        case TRACK_SEQUENCE_UPDATE:
+            return state.update(action.trackId, (x) => updateBeatInTrack(x, action.beat));
         default:
             return state;
     }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { updateTrackSequence } from '../actions/sequences';
 
 function mapTickToSequence(tickPosition, sequence) {
     const tickInterval = tickPosition.interval;
@@ -45,23 +46,34 @@ export function renderDrumButton({idx, onClick, isActive, isTick}) {
 
 /**
  * expected props:
- * - tick, trackId, sequence, onToggle
+ * - tick, sequence, onUpdate
  */
 export class DrumSequenceEditor extends React.Component {
     render() {
-        const {tickPosition, trackId, sequence, onToggle} = this.props;
+        const {tickPosition, sequence} = this.props;
         const tickIdx = mapTickToSequence(tickPosition, sequence);
 
         return (
             <div className="mrt-drum-editor">
                 {sequence.get("beats").map((beat, idx) => renderDrumButton({
                     idx: idx,
-                    isActive: beat.get("isActive"),
+                    isActive: beat.get("active"),
                     isTick: idx === tickIdx,
-                    onClick: () => {}
+                    onClick: () => { this.onClick(beat, idx); }
                 }))}
             </div>
         )
+    }
+    
+    onClick(beat, idx) {
+        const {onUpdate, trackId} = this.props;
+
+        const newBeat = {
+            idx: idx,
+            active: !beat.get("active")
+        };
+
+        onUpdate(trackId, newBeat);
     }
 }
 
@@ -88,4 +100,10 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-export default connect(mapStateToProps)(SequenceEditor);
+function mapDispatchToProps(dispatch, ownProps) {
+    return {
+        onUpdate: (trackId, beat) => dispatch(updateTrackSequence(trackId, beat))
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SequenceEditor);

@@ -7,7 +7,7 @@ import { attachSequencerToStore } from './sequencer-redux';
 import App from './components/App';
 import Tone from 'tone';
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 attachSequencerToStore(store);
 
 render(

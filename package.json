@@ -27,6 +27,7 @@
     "browserify": "^14.4.0",
     "chai": "^4.0.2",
     "concurrently": "^3.4.0",
+    "font-awesome": "^4.7.0",
     "less": "^2.7.2",
     "less-plugin-clean-css": "^1.5.1",
     "mocha": "^3.4.2",
