@@ -1,5 +1,7 @@
 @import "./base.less";
 @import "./fonts.less";
+@import "./icons.less";
+@import "./utils.less";
 
 // --- spacing variables ------------
 @margin-unit: 16px;
@@ -63,6 +65,9 @@
 }
 
 .mrt-track-header {
+    padding-left: @margin-unit;
+    white-space: nowrap;
+    overflow: show;
     color: @blue-main;
     cursor: pointer;
 
@@ -70,15 +75,26 @@
         background: @white-off-light;
     }
 
-    padding-left: @margin-unit;
+    .mrt-track-actions {
+        color: #CCC;
+    }
+
+    // TODO: not sure why .mrt-track-toggle doesn't need vertical-align: middle...
+    .mrt-track-title {
+        .text-overflow-ellipsis();
+        vertical-align: middle;
+        display: inline-block;
+        width: 400px;
+    }
 }
+
 .mrt-track-body {
     padding: 1em (@margin-unit); // taken from mrt-track-toggle
 }
 
 .mrt-track-placeholder {
     .mrt-track-header {
-        color: #CCC;
+        color: #999;
         font-style: italic;
     }
 
@@ -87,12 +103,30 @@
     }
 }
 
+// --- track actions ----------
+
+.mrt-track-actions {
+    padding: 0 @margin-unit;    
+    font-size: 1.4em;
+    &:hover {
+        color: @blue-main;
+    }
+}
+
+.mrt-track-delete-btn {
+    .mrt-icon-trash;
+}
+
+.mrt-track-config-btn {
+    .mrt-icon-gear;
+}
+
 // --- drum editor ------------
 @drum-btn-size: 40px;
 @drum-btn-margin: @drum-btn-size / 8;
 @drum-btn-width-total: (@drum-btn-size + @drum-btn-margin) + 2;
 @drum-btn-col-count: 8;
-@drum-inactive: #DDD;
+@drum-inactive: #E5E5E5;
 @drum-active: #006FB7;
 @drum-tick: #FF5A41;
 
@@ -109,8 +143,6 @@
 
 .mrt-drum-btn {
     display: inline-block;
-    border: 1px solid #999;
-    border-radius: 12px;
     width: @drum-btn-size;
     height: @drum-btn-size;
 

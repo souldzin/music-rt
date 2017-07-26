@@ -4,11 +4,29 @@ import { updateTrackEditing,
          updateTrackName,
          updateTrackCollapsed } from "../actions/tracks";
 
+const KEY_CODE_ENTER = 13;
+
 /**
  * Expected props:
  * - trackId, trackName, isEditing
  */
 export class TrackHeader extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            isEditing: false
+        };
+    }
+
+    componentDidMount() {
+        this.focusOnInput();
+    }
+
+    componentDidUpdate() {
+        this.focusOnInput();
+    }
+
     render() {
         return (
             <div className="mrt-track-header">
@@ -19,25 +37,66 @@ export class TrackHeader extends React.Component {
     }
 
     renderCollapseButton() {
-        const {isCollapsed, onTrackCollapseChange} = this.props;
+        const { isCollapsed, onCollapseUpdate } = this.props;
 
-        return <span className="mrt-track-toggle" onClick={() => onTrackCollapseChange(!isCollapsed)}></span>
+        return <span className="mrt-track-toggle" onClick={() => onCollapseUpdate(!isCollapsed)}></span>
     }
 
     renderTitle() {
-        const {isEditing, trackName, onTrackNameChange, onEditingChange} = this.props;
+        const { trackName } = this.props;
+        const { isEditing } = this.state;
 
         if(isEditing) {
+            // setup some props here for readability
+            const onKeyPress = (e) => {
+                if(e.charCode === KEY_CODE_ENTER) {
+                    this.stopEditing();
+                }                
+            };
+
             return <input className="mrt-track-title"
                    type="text" 
                    value={trackName} 
-                   onChange={(e) => onTrackNameChange(e.target.value)}
-                   onBlur={() => onEditingChange(false)} />
+                   ref={(e) => {this.nameInput = e}}
+                   onChange={(e) => this.updateName(e.target.value)}
+                   onKeyPress={onKeyPress}
+                   onBlur={() => this.stopEditing()} />
         } else {
             return <span className="mrt-track-title"
-                  onDoubleClick={() => onEditingChange(true)} >
-                  {trackName}
+                  onDoubleClick={() => this.startEditing()} >
+                  {trackName || "(unnamed)"}
             </span>
+        }
+    }
+
+    // --- methods for events ---------------------------
+
+    startEditing() {
+        this.updateEditing(true);
+    }
+    
+    stopEditing() {
+        this.updateEditing(false);
+    }
+
+    updateEditing(val) {
+        this.setState((prevState) => ({
+            isEditing: val
+        }));
+    }
+
+    updateName(val) {
+        const {onNameUpdate} = this.props;
+        const {isEditing} = this.state;
+
+        if(onNameUpdate) {
+            onNameUpdate(val);
+        }
+    }
+
+    focusOnInput() {
+        if(this.nameInput) {
+            this.nameInput.focus();
         }
     }
 }
@@ -49,14 +108,8 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch, ownProps) {
     const {trackId} = ownProps;
     return {
-        onTrackNameChange: (name) => {
+        onNameUpdate: (name) => {
             dispatch(updateTrackName(trackId, name));
-        },
-        onTrackCollapseChange: (isCollapsed) => {
-            dispatch(updateTrackCollapsed(trackId, isCollapsed));
-        },
-        onEditingChange: (isEditing) => {
-            dispatch(updateTrackEditing(trackId, isEditing));
         }
     };
 }

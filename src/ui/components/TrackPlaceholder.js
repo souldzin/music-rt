@@ -33,7 +33,6 @@ function mapDispatchToProps(dispatch, ownProps) {
             onAddTrack: (track) => {
                 dispatch(addTrack({
                     trackName: track.name,
-                    isEditing: true,
                     interval,
                     measures
                 }));

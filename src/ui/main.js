@@ -3,12 +3,22 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import rootReducer from './reducers';
-import { attachSequencerToStore } from './sequencer-redux';
+import { mixerMiddleware, mixerSubscribe } from '../mixer-redux';
+import { connect, clientMiddleware } from '../mixer-client';
 import App from './components/App';
-import Tone from 'tone';
 
-const store = createStore(rootReducer);
-attachSequencerToStore(store);
+const config = window.MUSIC_RT_CONFIG || {};
+const middlewares = [];
+
+if(!config.local) {
+    const {clientMiddleware} = require('../mixer-client');
+    middlewares.push(clientMiddleware());
+}
+
+middlewares.push(mixerMiddleware);
+
+const store = createStore(rootReducer, applyMiddleware(...middlewares));
+mixerSubscribe(store);
 
 render(
     <Provider store={store}>
@@ -16,5 +26,3 @@ render(
     </Provider>,
     document.getElementById('app')
 );
-
-Tone.Transport.start();
