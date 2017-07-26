@@ -1,10 +1,11 @@
-import { List, Map } from 'immutable';
-import { TRACKS_ADD, 
-         TRACKS_REMOVE, 
-         TRACKS_UPDATE_EDITING, 
-         TRACKS_UPDATE_NAME,
-         TRACKS_UPDATE_COLLAPSED } from '../actions/tracks';
-import { TRACK_SEQUENCE_UPDATE } from '../actions/sequences';
+import { List, Map, fromJS } from 'immutable';
+import { 
+    TRACK_SEQUENCE_UPDATE,
+    TRACKS_ADD, 
+    TRACKS_REMOVE, 
+    TRACKS_UPDATE_EDITING, 
+    TRACKS_UPDATE_NAME,
+    TRACKS_UPDATE_COLLAPSED } from '../actions/names';
 
 function updateTrack(track, action) {
     switch(action.type) {
@@ -46,7 +47,7 @@ function updateBeatInTrack(track, beat) {
 export function tracksById(state = Map(), action) {
     switch(action.type) {
         case TRACKS_ADD:
-            return state.set(action.track.get("id"), action.track);
+            return state.set(action.track.id, fromJS(action.track));
         case TRACKS_REMOVE:
             return state.remove(action.trackId);
         case TRACKS_UPDATE_NAME:
@@ -63,7 +64,7 @@ export function tracksById(state = Map(), action) {
 export function tracks(state = List(), action) {
     switch(action.type) {
         case TRACKS_ADD:
-            return state.push(action.track.get("id"));
+            return state.push(action.track.id);
         case TRACKS_REMOVE:
             return state.filterNot(x => x.get("id") === action.trackId);
         default:

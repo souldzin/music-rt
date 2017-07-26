@@ -1,4 +1,3 @@
-import { Map } from 'immutable';
 import { TICK_UPDATE } from '../../mixer-redux/actions';
 
 function initTickPosition() {
