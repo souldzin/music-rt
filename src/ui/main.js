@@ -3,12 +3,11 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import rootReducer from './reducers';
-import { attachSequencerToStore } from './sequencer-redux';
+import { mixerMiddleware, mixerSubscribe } from '../mixer-redux';
 import App from './components/App';
-import Tone from 'tone';
 
-const store = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
-attachSequencerToStore(store);
+const store = createStore(rootReducer, applyMiddleware(mixerMiddleware));
+mixerSubscribe(store);
 
 render(
     <Provider store={store}>
@@ -16,5 +15,3 @@ render(
     </Provider>,
     document.getElementById('app')
 );
-
-Tone.Transport.start();

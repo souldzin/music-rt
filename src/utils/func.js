@@ -1,5 +1,5 @@
 export function runAsync(fn) {
-    return Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         setTimeout(() => {
             try {
                 resolve(fn());

@@ -1,8 +1,14 @@
 import Tone from "tone";
-import { updateTickPosition } from './actions/tick';
-import { createTickStream } from "../sequencer";
-import { List } from "immutable";
 import Rx from "rxjs";
+import { updateTick } from './actions';
+import { createLoop } from "../mixer";
+import { List } from "immutable";
+import { runAsync } from "../utils/func";
+
+const OPTIONS = {
+    interval: 8,
+    measureCount: 4
+};
 
 var mainSynth = new Tone.MembraneSynth({
 			"pitchDecay" : 0.008,
@@ -14,32 +20,26 @@ var mainSynth = new Tone.MembraneSynth({
 			}
 		}).toMaster();
 
-export function attachSequencerToStore(store) {
-    const options = {
-        interval: 8,
-        measures: 4
-    };
-    
-    const tick$ = createTickStream(options);
-
-    tick$.subscribe(
-        (tick) => {
-            Tone.Draw.schedule(function(){
-                store.dispatch(updateTickPosition(tick))
-            }, tick.time);
-        }
-    );
+export function mixerSubscribe(store) {
+    const loop = createLoop(OPTIONS);
+    const tick$ = loop.tick$;
 
     const state$ = Rx.Observable.from(store);
-    const track$ = state$.map(x => x.tracksById.values());
+    const track$ = state$.map(x => List(x.tracksById.values()));
 
     const tickTracks$ = Rx.Observable
         .zip(tick$, 
              track$.sample(tick$), 
              (tick, tracks) => ({ tick, tracks }))
         .subscribe(
-            ({ tick, tracks }) => playTracks(tick, List(tracks))
+            ({ tick, tracks }) => {
+                runAsync(() => store.dispatch(updateTick(tick)));
+                runAsync(() => playTracks(tick, tracks));
+            }
         );
+
+    loop.start(0);
+    Tone.Transport.start("+1");
 }
 
 // TODO refactor: this, SequenceEditor.js
@@ -56,7 +56,9 @@ function mapTickToSequence(tick, sequence) {
 }
 
 function playTracks(tick, tracks) {
-    tracks.forEach(x => playTrack(tick, x));
+    tracks
+        .map(x => () => playTrack(tick, x))
+        .forEach(runAsync);
 }
 
 function playTrack(tick, track) {

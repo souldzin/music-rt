@@ -1,5 +1,5 @@
 import { Map } from 'immutable';
-import { TICK_POSITION_UPDATE } from '../actions/tick';
+import { TICK_UPDATE } from '../../mixer-redux/actions';
 
 function initTickPosition() {
     return {
@@ -10,8 +10,8 @@ function initTickPosition() {
 
 export function tickPosition(state = initTickPosition(), action) {
     switch(action.type) {
-        case TICK_POSITION_UPDATE:
-            return action.position;
+        case TICK_UPDATE:
+            return action.payload;
         default:
             return state;
     }
