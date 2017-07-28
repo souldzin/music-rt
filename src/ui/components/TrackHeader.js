@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import { updateTrackEditing, 
+import { removeTrack,
+         updateTrackEditing, 
          updateTrackName,
          updateTrackCollapsed } from "../actions/tracks";
 
@@ -32,6 +33,7 @@ export class TrackHeader extends React.Component {
             <div className="mrt-track-header">
                 {this.renderCollapseButton()}
                 {this.renderTitle()}
+                {this.renderActions()}
             </div>
         )      
     }
@@ -54,19 +56,38 @@ export class TrackHeader extends React.Component {
                 }                
             };
 
-            return <input className="mrt-track-title"
-                   type="text" 
-                   value={trackName} 
-                   ref={(e) => {this.nameInput = e}}
-                   onChange={(e) => this.updateName(e.target.value)}
-                   onKeyPress={onKeyPress}
-                   onBlur={() => this.stopEditing()} />
+            return (
+                <span className="mrt-track-title-wrapper">
+                    <input className="mrt-track-title"
+                        type="text" 
+                        value={trackName} 
+                        ref={(e) => {this.nameInput = e}}
+                        onChange={(e) => this.updateName(e.target.value)}
+                        onKeyPress={onKeyPress}
+                        onBlur={() => this.stopEditing()} />
+                </span>
+            );
         } else {
-            return <span className="mrt-track-title"
-                  onDoubleClick={() => this.startEditing()} >
-                  {trackName || "(unnamed)"}
-            </span>
+            return (
+                <span className="mrt-track-title-wrapper">
+                    <span className="mrt-track-title"
+                        onDoubleClick={() => this.startEditing()} >
+                        {trackName || "(unnamed)"}
+                    </span>
+                    <span className="mrt-edit-btn"
+                        onClick={() => this.startEditing()}>
+                    </span>
+                </span>
+            );
         }
+    }
+
+    renderActions() {
+        return (
+            <span className="mrt-track-actions">
+                <span className="mrt-delete-btn" onClick={() => this.remove()}></span>
+            </span>
+        )
     }
 
     // --- methods for events ---------------------------
@@ -99,6 +120,13 @@ export class TrackHeader extends React.Component {
             this.nameInput.focus();
         }
     }
+
+    remove() {
+        const {onRemove} = this.props;
+        if(onRemove) {
+            onRemove();
+        }
+    }
 }
 
 function mapStateToProps(state, ownProps) {
@@ -110,6 +138,9 @@ function mapDispatchToProps(dispatch, ownProps) {
     return {
         onNameUpdate: (name) => {
             dispatch(updateTrackName(trackId, name));
+        },
+        onRemove: () => {
+            dispatch(removeTrack(trackId));
         }
     };
 }
