@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateTrackSequence } from '../actions/sequences';
+import { updateTrackSequence } from '../../ui-state/actions';
 
 function mapTickToSequence(tickPosition, sequence) {
     const tickInterval = tickPosition.interval;

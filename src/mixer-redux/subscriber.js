@@ -1,6 +1,6 @@
 import Tone from "tone";
 import Rx from "rxjs";
-import { updateTick } from '../ui/actions/tick';
+import { updateTick } from '../ui-state/actions/tick';
 import { List } from "immutable";
 import { runAsync } from "../utils/func";
 

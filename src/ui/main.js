@@ -12,6 +12,7 @@ const mixer = new Mixer({
 });
 
 const store = createStoreForMixer(mixer, config);
+window._store = store;
 
 render(
     <Provider store={store}>

@@ -15,16 +15,21 @@ export function mapTickToSequence(tick, sequence) {
     return tickIdx * ratio;
 }
 
+export function getNote(sequenceBeat, sequence) {
+    return sequence.get("baseNote");
+}
+
 export function playTrack(tick, track) {
     const sequence = track.get("sequence");
     const synth = track.get("synth");
     const seqIdx = mapTickToSequence(tick, sequence);
-    if(sequence.get("beats").get(seqIdx).get("active")) {
-        play(synth, tick.time);
+    const sequenceBeat = sequence.get("beats").get(seqIdx);
+    if(sequenceBeat.get("active")) {
+        const note = getNote(sequenceBeat, sequence);
+        play(synth, note, tick.time);
     }
 }
 
-function play(synth, time) {
-    console.log("let's play our synth :)");
-    synth.triggerAttack("G3", time, Math.random()*0.5 + 0.5);
+function play(synth, note, time) {
+    synth.triggerAttack(note, time, Math.random()*0.5 + 0.5);
 }

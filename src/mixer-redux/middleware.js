@@ -3,7 +3,7 @@ import {
     SET_STATE,
     TRACKS_ADD,
     TRACKS_REMOVE
-} from '../ui/actions/names';
+} from '../ui-state/actions/names';
 
 function handleAction(mixer, action) {
     switch(action.type) {
