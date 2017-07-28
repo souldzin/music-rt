@@ -1,1 +1,1 @@
-export { createLoop } from "./mixer";
+export { Mixer } from "./mixer";

@@ -1,4 +1,4 @@
-export const TICK_UPDATE = "TICK_UPDATE";
+import { TICK_UPDATE } from './names';
 
 export function updateTick(tick) {
     return {

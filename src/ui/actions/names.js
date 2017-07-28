@@ -1,5 +1,5 @@
 export const SET_STATE = "SET_STATE"; // trust me, I'm a doctor...
-export const TICK_POSITION_UPDATE = "TICK_POSITION_UPDATE";
+export const TICK_UPDATE = "TICK_UPDATE";
 export const TRACK_SEQUENCE_UPDATE = "TRACK_SEQUENCE_UPDATE";
 export const TRACKS_ADD = "TRACKS_ADD";
 export const TRACKS_REMOVE = "TRACKS_REMOVE";
