@@ -19,7 +19,6 @@ function createSynth(track) {
 // --- "reducers" ----
 
 function addSynth(synths, track) {
-    debugger;
     return synths.set(track.id, createSynth(track));
 }
 

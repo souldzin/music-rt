@@ -28,4 +28,4 @@ function rootReducer(state, action) {
     return appReducer(state, action);
 }
 
-export default rootReducer;
+export { rootReducer };
