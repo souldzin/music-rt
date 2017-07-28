@@ -1,34 +1,36 @@
+@import "./variables.less";
+@import "./mixins.less";
+
 @import "./base.less";
 @import "./fonts.less";
 @import "./icons.less";
-@import "./utils.less";
 
-// --- spacing variables ------------
-@margin-unit: 16px;
+@import "./components/buttons.less";
 
-// --- color variables --------------
-@white-pure: #FFFFFF;
-@white-off: #EEEEEE;
-@white-off-light: #F5F5F5;
-
-@blue-main: #3B9DDC;
-
-@pink-light: #DE83CC;
+body {
+    font-size: @font-size-main;
+    line-height: @line-height-main;
+}
 
 .mrt-app {
     .font-main();
-    background: @white-pure;
+    background: @white-off-light;
     min-height: 100%;
+    max-width: 1000px;
+    margin: auto;
 }
 
 .mrt-header {
-    background: @white-off;
-    padding: 1em @margin-unit;
+    background: #3463AE;
+    color: @white-pure;
+    padding: 0.5em @margin-unit;
+    font-size: 0.8em;
 
     border-bottom: 1px solid #777;
     .title {
         font-weight: bold;
-        font-style: italic;
+        font-size: 1em;
+        padding: 0;
         margin: 0;
     }
 }
@@ -65,31 +67,69 @@
 }
 
 .mrt-track-header {
-    padding-left: @margin-unit;
+    padding: (@margin-unit * 0.2) @margin-unit;
     white-space: nowrap;
     overflow: show;
     color: @blue-main;
     cursor: pointer;
 
     &:hover {
-        background: @white-off-light;
-    }
-
-    .mrt-track-actions {
-        color: #CCC;
+        background: @white-pure;
     }
 
     // TODO: not sure why .mrt-track-toggle doesn't need vertical-align: middle...
     .mrt-track-title {
         .text-overflow-ellipsis();
-        vertical-align: middle;
         display: inline-block;
-        width: 400px;
+        vertical-align: middle;
+        max-width: 400px;
+    }
+
+    .mrt-track-title-wrapper {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .mrt-track-actions {
+        float: right;
+        vertical-align: middle;
     }
 }
 
+.mrt-action-btn() {
+    cursor: pointer;
+    color: #CCC;
+
+    &:hover {
+        color: @blue-main;
+    }
+}
+
+.mrt-delete-btn {
+    .mrt-action-btn();
+    .mrt-icon-remove();
+    font-size: 0.8em;
+    &:hover {
+        color: #FF3939;
+    }
+}
+
+.mrt-edit-btn {
+    .mrt-action-btn();
+    .mrt-icon-edit();
+    font-size: 0.6em;
+    vertical-align: top;
+    margin-left: 0.6em;
+}
+
+
 .mrt-track-body {
     padding: 1em (@margin-unit); // taken from mrt-track-toggle
+}
+
+.mrt-body-item {
+    display: inline-block;
+    vertical-align: top;    
 }
 
 .mrt-track-placeholder {
@@ -113,6 +153,16 @@
     }
 }
 
+.mrt-button-list {
+    font-size: 0.8em;
+
+    .mrt-btn {
+        display: block;
+        width: 80px;
+        padding: 0.6em 0.4em;
+    }    
+}
+
 .mrt-track-delete-btn {
     .mrt-icon-trash;
 }
@@ -121,14 +171,7 @@
     .mrt-icon-gear;
 }
 
-// --- drum editor ------------
-@drum-btn-size: 40px;
-@drum-btn-margin: @drum-btn-size / 8;
-@drum-btn-width-total: (@drum-btn-size + @drum-btn-margin) + 2;
-@drum-btn-col-count: 8;
-@drum-inactive: #E5E5E5;
-@drum-active: #006FB7;
-@drum-tick: #FF5A41;
+// --- drum editor ----------------------
 
 .mrt-drum-editor {
     font-size: 0;
