@@ -16,7 +16,7 @@ export class TrackHeader extends React.Component {
         super(props);
 
         this.state = {
-            isEditing: false
+            isEditing: true
         };
     }
 
