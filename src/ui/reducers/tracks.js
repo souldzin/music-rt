@@ -56,7 +56,7 @@ export function tracks(state = List(), action) {
         case TRACKS_ADD:
             return state.push(action.track.id);
         case TRACKS_REMOVE:
-            return state.filterNot(x => x.get("id") === action.trackId);
+            return state.filterNot(x => x === action.trackId);
         default:
             return state;
     }
