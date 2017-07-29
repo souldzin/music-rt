@@ -41,7 +41,8 @@ export class TrackList extends React.Component {
             trackName: track.get("name"),
             isCollapsed: track.get("isCollapsed"),
             isEditing: track.get("isEditing"),
-            sequence: track.get("sequence")
+            sequence: track.get("sequence"),
+            synthSettings: track.get("synthSettings")
         };
 
         return <Track {...trackProps} key={idx} />

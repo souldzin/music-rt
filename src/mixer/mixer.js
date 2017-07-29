@@ -71,7 +71,7 @@ export class Mixer {
     playTracks(tick, tracks) {
         tracks
             .map(x => x.set("synth", this.getSynth(x.get("id"))))
-            .map(x => () => Player.playTrack(tick, x))
+            .map(x => () => Player.playTrack(x, tick))
             .forEach(runAsync);
 
         return this;

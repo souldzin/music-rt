@@ -6,6 +6,7 @@
 @import "./icons.less";
 
 @import "./components/buttons.less";
+@import "./components/input-range.less";
 
 body {
     font-size: @font-size-main;
@@ -18,6 +19,7 @@ body {
     min-height: 100%;
     max-width: 1000px;
     margin: auto;
+    padding-bottom: 0.5em;
 }
 
 .mrt-header {
@@ -113,7 +115,7 @@ body {
     .mrt-icon-remove();
     font-size: 0.8em;
     &:hover {
-        color: #FF3939;
+        color: @red;
     }
 }
 
@@ -169,6 +171,10 @@ body {
         display: inline-block;
         padding-right: @margin-unit * 0.5;
         width: 6em;
+    }
+
+    &.error .mrt-name {
+        color: @red;
     }
 
     input, select, option {

@@ -41,6 +41,7 @@
     "mkdirp": "^0.5.1",
     "mocha": "^3.4.2",
     "onchange": "^3.2.1",
+    "react-input-range": "^1.2.1",
     "sinon": "^2.3.4",
     "trash-cli": "^1.4.0",
     "watchify": "^3.9.0"

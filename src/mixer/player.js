@@ -1,3 +1,9 @@
+export const NOTE_REGEX = "[A-G][\#b]?[0-9]";
+
+export function isValidNote(note) {
+    return note.match(RegExp(NOTE_REGEX));
+}
+
 /**
  * Utility function that maps a tick's idx to the sequences idx based on interval
  * @param {*} tick 
@@ -15,21 +21,30 @@ export function mapTickToSequence(tick, sequence) {
     return tickIdx * ratio;
 }
 
-export function getNote(sequenceBeat, sequence) {
-    return sequence.get("rootNote");
+export function getNote(track, sequenceBeat) {
+    const synthSettings = track.get("synthSettings");
+    return synthSettings.get("rootNote");
 }
 
-export function playTrack(tick, track) {
-    const sequence = track.get("sequence");
-    const synth = track.get("synth");
-    const seqIdx = mapTickToSequence(tick, sequence);
-    const sequenceBeat = sequence.get("beats").get(seqIdx);
+export function playTrack(track, tick) {
+    const sequenceBeat = getSequenceBeat(track, tick);
+
     if(sequenceBeat.get("active")) {
-        const note = getNote(sequenceBeat, sequence);
+        const synth = track.get("synth");
+        const note = getNote(track, sequenceBeat);
         play(synth, note, tick.time);
     }
 }
 
 function play(synth, note, time) {
+    if(!isValidNote(note)) {
+        return;
+    }
     synth.triggerAttack(note, time, Math.random()*0.5 + 0.5);
+}
+
+function getSequenceBeat(track, tick) {
+    const sequence = track.get("sequence");
+    const seqIdx = mapTickToSequence(tick, sequence);
+    return sequence.get("beats").get(seqIdx);
 }

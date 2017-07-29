@@ -1,8 +1,9 @@
 import { List, Map, fromJS } from 'immutable';
 import { 
-    TRACK_SEQUENCE_UPDATE,
     TRACKS_ADD, 
     TRACKS_REMOVE, 
+    TRACKS_UPDATE_SYNTH,
+    TRACKS_UPDATE_SEQUENCE,
     TRACKS_UPDATE_EDITING, 
     TRACKS_UPDATE_NAME,
     TRACKS_UPDATE_COLLAPSED } from '../actions/names';
@@ -15,6 +16,9 @@ function updateTrack(track, action) {
             return track;
     }
 }
+
+// --- updaters for sequence 
+// -------------------------
 
 function updateBeat(beat, {active}) {
     return beat.set("active", active);
@@ -36,6 +40,22 @@ function updateBeatInTrack(track, beat) {
     return track.update("sequence", (x) => updateBeatInSequence(x, beat));
 }
 
+// --- updater for synth
+// -------------------------
+
+function updateSynthSettings(settings, values) {
+    return Object.keys(values).reduce((x, key) => {
+        return x.set(key, values[key]);        
+    }, settings);
+}
+
+function updateSynthSettingsInTrack(track, synthSettings) {
+    return track.update("synthSettings", (x) => updateSynthSettings(x, synthSettings));
+}
+
+// --- reducers
+// -------------------------
+
 export function tracksById(state = Map(), action) {
     switch(action.type) {
         case TRACKS_ADD:
@@ -44,8 +64,10 @@ export function tracksById(state = Map(), action) {
             return state.remove(action.trackId);
         case TRACKS_UPDATE_NAME:
             return state.update(action.trackId, (x) => updateTrack(x, action));
-        case TRACK_SEQUENCE_UPDATE:
+        case TRACKS_UPDATE_SEQUENCE:
             return state.update(action.trackId, (x) => updateBeatInTrack(x, action.beat));
+        case TRACKS_UPDATE_SYNTH:
+            return state.update(action.trackId, (x) => updateSynthSettingsInTrack(x, action.synthSettings));
         default:
             return state;
     }
