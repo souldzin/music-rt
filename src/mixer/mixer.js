@@ -5,22 +5,24 @@ import { createLoop } from './mixer-loop';
 import * as Player from './player';
 import * as Synths from './synths';
 
-function createSynth(settings) {
-    return Synths.getSynth(settings.type).get("create")();
+function createSynth(type) {
+    return Synths.getSynth(type).get("create")();
 }
 
 // --- "reducers" ----
 
 function updateSynth(synth, settings) {
-    if(settings.type) {
-        return createSynth(settings);
-    } else {
-        return synth;
+    if(settings.has("type")) {
+        synth = createSynth(settings.get("type"));
+    } 
+    if(settings.has("volume")) {
+        synth.volume.value = settings.get("volume");
     }
+    return synth;
 }
 
 function addSynth(synths, track) {
-    return synths.set(track.id, createSynth(track.synthSettings));
+    return synths.set(track.id, createSynth(track.synthSettings.type));
 }
 
 function removeSynth(synths, id) {
@@ -59,8 +61,14 @@ export class Mixer {
         return this;
     }
 
-    updateSynth(id, settings) {
-        this._synths = this._synths.update(id, (synth) => updateSynth(synth, settings));
+    updateSynth(id, newSettings, oldSettings) {
+        if(newSettings.type) {
+            newSettings = oldSettings.merge(Map(newSettings));
+        } else {
+            newSettings = Map(newSettings);
+        }
+
+        this._synths = this._synths.update(id, (synth) => updateSynth(synth, newSettings));
 
         return this;
     }

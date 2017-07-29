@@ -6,7 +6,7 @@ import {
     TRACKS_UPDATE_SYNTH
 } from '../ui-state/actions/names';
 
-function handleAction(mixer, action) {
+function handleAction({ dispatch, getState }, mixer, action) {
     switch(action.type) {
         case SET_STATE:
             return mixer.setSynths(Object.values(action.payload.tracksById));
@@ -15,8 +15,9 @@ function handleAction(mixer, action) {
         case TRACKS_REMOVE:
             return mixer.removeSynth(action.trackId);
         case TRACKS_UPDATE_SYNTH:
-            return mixer.updateSynth(action.trackId, action.synthSettings);        
-        // need to catch default so that we don't end up with 'undefined' mixer in middleware
+            const currentSettings = getState().tracksById.get(action.trackId).get("synthSettings");
+            return mixer.updateSynth(action.trackId, action.synthSettings, currentSettings);        
+            // need to catch default so that we don't end up with 'undefined' mixer in middleware
         default:
             return this;
     }
@@ -24,7 +25,7 @@ function handleAction(mixer, action) {
 
 export function mixerMiddleware(mixer) {
     return ({ dispatch, getState }) => next => action => {
-        handleAction(mixer, action);
+        handleAction({ dispatch, getState }, mixer, action);
         return next(action);
     }
 }
