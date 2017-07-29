@@ -17,7 +17,7 @@ function createNewTrack({ trackName, interval, measures }) {
         sequence: {
             interval: interval,
             type: 'drum',
-            baseNote: "C4",
+            rootNote: "C4",
             beats: repeat(interval * measures, { 
                 active: false
             })

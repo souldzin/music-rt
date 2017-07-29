@@ -16,7 +16,7 @@ export function mapTickToSequence(tick, sequence) {
 }
 
 export function getNote(sequenceBeat, sequence) {
-    return sequence.get("baseNote");
+    return sequence.get("rootNote");
 }
 
 export function playTrack(tick, track) {
