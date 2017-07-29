@@ -6,12 +6,15 @@ const state = require('./state');
 
 // --- configuration ------------
 const CONFIG = {
+    FONTS_PREFIX: '/fonts',
+    FONTS_ROOT: '../../dist/fonts',
     STATIC_PREFIX: '/public',
     STATIC_ROOT: '../../dist/public',
     VIEW_ROOT: '../../dist',
     PORT: 3000
 };
 
+CONFIG.FONTS_ROOT_ABS = path.join(__dirname, CONFIG.FONTS_ROOT);
 CONFIG.STATIC_ROOT_ABS = path.join(__dirname, CONFIG.STATIC_ROOT);
 CONFIG.VIEW_ROOT_ABS = path.join(__dirname, CONFIG.VIEW_ROOT);
 
@@ -20,11 +23,9 @@ CONFIG.VIEW_ROOT_ABS = path.join(__dirname, CONFIG.VIEW_ROOT);
 const app = express();
 
 app.use( CONFIG.STATIC_PREFIX, express.static(CONFIG.STATIC_ROOT_ABS));
+app.use( CONFIG.FONTS_PREFIX, express.static(CONFIG.FONTS_ROOT_ABS));
 
 app.get('/', function(req, res){
-    res.locals = {
-        what: "is this?"
-    };
     res.sendFile( path.join(CONFIG.VIEW_ROOT_ABS, "index.html"));
 });
 
