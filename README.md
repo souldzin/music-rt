@@ -1,6 +1,6 @@
 # music-rt
 
-# Development Instructions
+# Instructions
 
 1) Make sure you have the following installed:
 
