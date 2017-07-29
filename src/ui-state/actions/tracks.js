@@ -25,6 +25,7 @@ function createNewTrack({ trackName, interval, measures }) {
         },
         synthSettings: {
             type: 'membrane',
+            volume: 0,
             rootNote: 'C3',
             props: {}
         }
