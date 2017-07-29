@@ -12,8 +12,10 @@ const appReducer = combineReducers({
 
 function rootReducer(state, action) {
     if(action.type === SET_STATE) {
-        // --- we need to make this immutable...
-        //     except for the top level fields
+        // -
+        // we need to make this immutable...
+        // except for the top level fields
+        // -
         const state = action.payload;
 
         for(var p in state) {
@@ -26,4 +28,4 @@ function rootReducer(state, action) {
     return appReducer(state, action);
 }
 
-export default rootReducer;
+export { rootReducer };

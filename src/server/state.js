@@ -1,5 +1,5 @@
 import { createStore } from "redux";
-import rootReducer from "../ui/reducers";
+import { rootReducer } from "../ui-state/reducers";
 
 // --- exports -----------
 export { createServerStore };

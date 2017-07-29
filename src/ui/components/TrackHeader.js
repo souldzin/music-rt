@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { removeTrack,
          updateTrackEditing, 
          updateTrackName,
-         updateTrackCollapsed } from "../actions/tracks";
+         updateTrackCollapsed } from "../../ui-state/actions";
 
 const KEY_CODE_ENTER = 13;
 

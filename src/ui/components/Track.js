@@ -1,11 +1,12 @@
 import React from 'react';
 import SequenceEditor from './SequenceEditor';
+import SynthEditor from './SynthEditor';
 import TrackHeader from './TrackHeader';
 
 
 /**
  * Expected props:
- * - trackId, trackName, sequence, isCollapsed
+ * - trackId, trackName, sequence, synthSettings, isCollapsed
  */
 export default class Track extends React.Component {
     constructor(props) {
@@ -20,13 +21,14 @@ export default class Track extends React.Component {
         const { isCollapsed } = this.state;
         const { trackName, 
                 trackId, 
-                sequence } = this.props;
+                sequence,
+                synthSettings } = this.props;
 
         const status = (isCollapsed ? "collapse" : "");
 
         return (<div className={"mrt-track " + status}> 
             <TrackHeader trackId={trackId} trackName={trackName} isCollapsed={isCollapsed} onCollapseUpdate={(x) => this.collapse(x)} />
-            <TrackBody trackId={trackId} sequence={sequence} />
+            <TrackBody trackId={trackId} sequence={sequence} synthSettings={synthSettings} />
         </div>);
     }
 
@@ -44,11 +46,16 @@ export default class Track extends React.Component {
  */
 export class TrackBody extends React.Component {
     render() {
-        const {trackId, sequence} = this.props;
+        const {trackId, sequence, synthSettings} = this.props;
 
         return (
             <div className="mrt-track-body">
-                <SequenceEditor trackId={trackId} sequence={sequence} />
+                <div className="mrt-panel">
+                    <SequenceEditor trackId={trackId} sequence={sequence} />
+                </div>
+                <div className="mrt-panel">
+                    <SynthEditor trackId={trackId} synthSettings={synthSettings} />
+                </div>
             </div>
         )
     }

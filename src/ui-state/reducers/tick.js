@@ -1,4 +1,4 @@
-import { TICK_UPDATE } from '../../mixer-redux/actions';
+import { TICK_UPDATE } from '../actions/names';
 
 function initTickPosition() {
     return {

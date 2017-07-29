@@ -23,7 +23,7 @@
                         </span>
                     </div>
                     <div class="mrt-track-body">
-                        <div class="mrt-body-item mrt-drum-editor">
+                        <div class="mrt-panel mrt-drum-editor">
                             <div class="mrt-drum-btn"></div>
                             <div class="mrt-drum-btn active tick"></div>
                             <div class="mrt-drum-btn"></div>
@@ -40,6 +40,23 @@
                             <div class="mrt-drum-btn"></div>
                             <div class="mrt-drum-btn"></div>
                             <div class="mrt-drum-btn"></div>
+                        </div>
+                        <div class="mrt-panel mrt-synth-editor">
+                            <label class="mrt-field">
+                                <span class="mrt-name">Root Note: </span>
+                                <input type="text" maxlength="3" />
+                            </label>
+                            <label class="mrt-field">
+                                <span class="mrt-name">Synth Type: </span>
+                                <select>
+                                    <option value="am">AM Synth</option>
+                                    <option value="fm">FM Synth</option>
+                                    <option value="membrane">Memberane Synth</option>
+                                    <option value="metal">Metal Synth</option>
+                                    <option value="mono">Mono Synth</option>
+                                    <option value="noise">Noise Synth</option>
+                                </select>
+                            </label>
                         </div>
                     </div>
                 </div>

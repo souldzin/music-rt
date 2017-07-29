@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { addTrack } from "../actions/tracks";
+import { addTrack } from "../../ui-state/actions";
 
 export class TrackPlaceholder extends React.Component {
     render() {

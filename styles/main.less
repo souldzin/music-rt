@@ -6,6 +6,7 @@
 @import "./icons.less";
 
 @import "./components/buttons.less";
+@import "./components/input-range.less";
 
 body {
     font-size: @font-size-main;
@@ -15,9 +16,10 @@ body {
 .mrt-app {
     .font-main();
     background: @white-off-light;
+    min-height: 100%;
     max-width: 1000px;
     margin: auto;
-    padding-bottom: 1em;
+    padding-bottom: 0.5em;
 }
 
 .mrt-header {
@@ -66,6 +68,9 @@ body {
     }
 }
 
+// track header items
+// --------------------------
+
 .mrt-track-header {
     padding: (@margin-unit * 0.2) @margin-unit;
     white-space: nowrap;
@@ -110,7 +115,7 @@ body {
     .mrt-icon-remove();
     font-size: 0.8em;
     &:hover {
-        color: #FF3939;
+        color: @red;
     }
 }
 
@@ -122,15 +127,30 @@ body {
     margin-left: 0.6em;
 }
 
+.mrt-track-actions {
+    padding: 0 @margin-unit;    
+    font-size: 1.4em;
+    &:hover {
+        color: @blue-main;
+    }
+}
+
+// track body items
+// --------------------------
 
 .mrt-track-body {
+    font-size: 0.8em;
+    color: @gray;
     padding: 1em (@margin-unit); // taken from mrt-track-toggle
+
+    .mrt-panel {
+        display: inline-block;
+        vertical-align: top;    
+    }
 }
 
-.mrt-body-item {
-    display: inline-block;
-    vertical-align: top;    
-}
+// track other items
+// ----------------------------
 
 .mrt-track-placeholder {
     .mrt-track-header {
@@ -143,35 +163,32 @@ body {
     }
 }
 
-// --- track actions ----------
+.mrt-field {
+    display: block;
+    margin-bottom: @margin-unit * 0.5;
 
-.mrt-track-actions {
-    padding: 0 @margin-unit;    
-    font-size: 1.4em;
-    &:hover {
-        color: @blue-main;
+    .mrt-name {
+        display: inline-block;
+        padding-right: @margin-unit * 0.5;
+        width: 6em;
+    }
+
+    &.error .mrt-name {
+        color: @red;
+    }
+
+    input, select, option {
+        .font-main();
+        font-size: 1em;
+        padding: 0.4em 0.2em;
+        width: 12em;
+        box-sizing: content-box;
     }
 }
 
-.mrt-button-list {
-    font-size: 0.8em;
 
-    .mrt-btn {
-        display: block;
-        width: 80px;
-        padding: 0.6em 0.4em;
-    }    
-}
-
-.mrt-track-delete-btn {
-    .mrt-icon-trash;
-}
-
-.mrt-track-config-btn {
-    .mrt-icon-gear;
-}
-
-// --- drum editor ----------------------
+// drum editor
+// ---------------------------
 
 .mrt-drum-editor {
     font-size: 0;
