@@ -43,9 +43,17 @@ function updateBeatInTrack(track, beat) {
 // --- updater for synth
 // -------------------------
 
+function getSynthSettingsValue(values, key) {
+    if(key === "rootNote") {
+        return values[key].toUpperCase();
+    } else {
+        return values[key];
+    }
+}
+
 function updateSynthSettings(settings, values) {
     return Object.keys(values).reduce((x, key) => {
-        return x.set(key, values[key]);        
+        return x.set(key, getSynthSettingsValue(values, key));        
     }, settings);
 }
 

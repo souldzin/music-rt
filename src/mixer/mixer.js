@@ -3,23 +3,24 @@ import Tone from 'tone';
 import { runAsync } from '../utils/func';
 import { createLoop } from './mixer-loop';
 import * as Player from './player';
+import * as Synths from './synths';
 
-function createSynth(track) {
-    return new Tone.MembraneSynth({
-        "pitchDecay" : 0.008,
-        "octaves" : 2,
-        "envelope" : {
-            "attack" : 0.0006,
-            "decay" : 0.5,
-            "sustain" : 0
-        }
-    }).toMaster();
+function createSynth(settings) {
+    return Synths.getSynth(settings.type).get("create")();
 }
 
 // --- "reducers" ----
 
+function updateSynth(synth, settings) {
+    if(settings.type) {
+        return createSynth(settings);
+    } else {
+        return synth;
+    }
+}
+
 function addSynth(synths, track) {
-    return synths.set(track.id, createSynth(track));
+    return synths.set(track.id, createSynth(track.synthSettings));
 }
 
 function removeSynth(synths, id) {
@@ -54,6 +55,12 @@ export class Mixer {
 
     removeSynth(id) {
         this._synths = removeSynth(this._synths, id);
+
+        return this;
+    }
+
+    updateSynth(id, settings) {
+        this._synths = this._synths.update(id, (synth) => updateSynth(synth, settings));
 
         return this;
     }

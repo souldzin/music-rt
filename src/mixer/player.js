@@ -1,3 +1,5 @@
+import { getSynth } from "./synths";
+
 export const NOTE_REGEX = "[A-G][\#b]?[0-9]";
 
 export function isValidNote(note) {
@@ -31,16 +33,27 @@ export function playTrack(track, tick) {
 
     if(sequenceBeat.get("active")) {
         const synth = track.get("synth");
-        const note = getNote(track, sequenceBeat);
-        play(synth, note, tick.time);
+        const synthDef = getSynth(track.get("synthSettings").get("type"));
+        console.log(synthDef);
+        if(synthDef && synthDef.get("isNoise")) {
+            playNoise(synth, tick.time);
+        } else {
+            const note = getNote(track, sequenceBeat);
+            console.log(note);
+            play(synth, note, tick.time);
+        }
     }
+}
+
+function playNoise(synth, time) {
+    synth.triggerAttackRelease("8n", time, Math.random()*0.5 + 0.5);
 }
 
 function play(synth, note, time) {
     if(!isValidNote(note)) {
         return;
     }
-    synth.triggerAttack(note, time, Math.random()*0.5 + 0.5);
+    synth.triggerAttackRelease(note, "8n", time, Math.random()*0.5 + 0.5);
 }
 
 function getSequenceBeat(track, tick) {

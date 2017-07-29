@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 import { updateTrackSynth } from '../../ui-state/actions';
 import { isValidNoteOctave } from '../../mixer/notes';
-import InputRange from 'react-input-range';
+import { synths } from '../../mixer/synths';
 
 class SynthEditor extends React.Component {
     render() {
@@ -14,21 +14,17 @@ class SynthEditor extends React.Component {
             <div className="mrt-panel mrt-synth-editor">
                 {this.renderField({
                     key: "rootNote",
-                    display: "Root Note: ",
+                    display: "Root Note",
                     validFn: isValidNoteOctave,
                     inputFn: (x) => <input {...x} type="text" maxLength="3" />
                 })}
-                <label className="mrt-field">
-                    <span className="mrt-name">Synth Type: </span>
-                    <select>
-                        <option value="am">AM Synth</option>
-                        <option value="fm">FM Synth</option>
-                        <option value="membrane">Memberane Synth</option>
-                        <option value="metal">Metal Synth</option>
-                        <option value="mono">Mono Synth</option>
-                        <option value="noise">Noise Synth</option>
-                    </select>
-                </label>
+                {this.renderField({
+                    key: "type",
+                    display: "Synth Type",
+                    inputFn: (x) => (<select {...x}>
+                        {synths.map((s, idx) => <option key={idx} value={s.get("id")}>{s.get("display")}</option>)}
+                    </select>)
+                })}
             </div>
         );
     }
@@ -36,15 +32,15 @@ class SynthEditor extends React.Component {
     renderField({ key, display, inputFn, validFn }) {
         const { synthSettings, onChange } = this.props;
         const value = synthSettings.get(key);
-        const isValid = validFn(value);
+        const isValid = validFn ? validFn(value) : true;
         const status = !isValid ? "error" : "";
         
         return (
             <label className={"mrt-field " + status}>
-                <span className="mrt-name">{display}</span>
+                <span className="mrt-name">{display}: </span>
                 {inputFn({
                     value: value,
-                    onChange: (x) => onChange({ [key]: x.target.value.toUpperCase() })
+                    onChange: (x) => onChange({ [key]: x.target.value })
                 })}
             </label>
         )
